@@ -21,7 +21,11 @@ const MaidSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  price: {
+  pricePerMonth: {
+    type: Number,
+    required: true,
+  },
+  pricePerHour: {
     type: Number,
     required: true,
   },

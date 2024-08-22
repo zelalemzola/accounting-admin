@@ -20,7 +20,8 @@ const Workers = () => {
     grandFathersName: '',
     imageUrl: '',
     imageKey: '',
-    price: 0,
+    pricePerMonth: 0,
+    pricePerHour:0,
     experience: [''],
     review: [''],
     category: '',
@@ -37,7 +38,8 @@ const Workers = () => {
     grandFathersName: '',
     imageUrl: '',
     imageKey: '',
-    price: 0,
+    pricePerMonth: 0,
+    pricePerHour: 0,
     experience: [''],
     review: [''],
     category: '',
@@ -75,7 +77,8 @@ const Workers = () => {
     if (!formState.grandFathersName) newErrors.push('Grandfather\'s Name is required');
     if (!formState.imageUrl) newErrors.push('Image URL is required');
     if (!formState.imageKey) newErrors.push('Image Key is required');
-    if (!formState.price) newErrors.push('Price is required');
+    if (!formState.pricePerMonth) newErrors.push('Price is required');
+    if (!formState.pricePerHour) newErrors.push('Price is required');
     if (formState.experience.some(exp => !exp)) newErrors.push('All experience fields must be filled');
     if (formState.review.some(rev => !rev)) newErrors.push('All review fields must be filled');
     if (!formState.category) newErrors.push('Category is required');
@@ -93,12 +96,12 @@ const Workers = () => {
       return;
     }
 
-    const { id, name, fathersName, grandFathersName, imageUrl, imageKey, price, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages } = formState;
+    const { id, name, fathersName, grandFathersName, imageUrl, imageKey, pricePerMonth,pricePerHour, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages } = formState;
 
     if (isUpdate) {
-      await axios.put(`/api/maids/${id}`, { name, fathersName, grandFathersName, imageUrl, imageKey, price, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages });
+      await axios.put(`/api/maids/${id}`, { name, fathersName, grandFathersName, imageUrl, imageKey, pricePerMonth,pricePerHour, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages });
     } else {
-      await axios.post('/api/maids', { name, fathersName, grandFathersName, imageUrl, imageKey, price, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages });
+      await axios.post('/api/maids', { name, fathersName, grandFathersName, imageUrl, imageKey, pricePerMonth,pricePerHour, experience, review, category, documentUrl, documentKey, documentName, isAvailable, languages });
     }
 
     setCreateFormState({
@@ -107,7 +110,8 @@ const Workers = () => {
       grandFathersName: '',
       imageUrl: '',
       imageKey: '',
-      price: 0,
+      pricePerMonth: 0,
+      pricePerHour:0,
       experience: [''],
       review: [''],
       category: '',
@@ -125,7 +129,8 @@ const Workers = () => {
       grandFathersName: '',
       imageUrl: '',
       imageKey: '',
-      price: 0,
+      pricePerMonth: 0,
+      pricePerHour: 0,
       experience: [''],
       review: [''],
       category: '',
@@ -149,7 +154,8 @@ const Workers = () => {
       grandFathersName: maid.grandFathersName,
       imageUrl: maid.imageUrl,
       imageKey: maid.imageKey,
-      price: maid.price,
+      pricePerMonth: maid.pricePerMonth,
+      pricePerHour: maid.pricePerHour,
       experience: maid.experience,
       review: maid.review,
       category: maid.category._id,
@@ -252,7 +258,11 @@ const Workers = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className='text-lg font-bold text-primary'>Wage per Month</h2>
-                      <Input name="price" type="number" value={createFormState.price} onChange={(e) => handleChange(e)} placeholder="Wage per Month" required className='w-1/4' />
+                      <Input name="pricePerMonth" type="number" value={createFormState.pricePerMonth} onChange={(e) => handleChange(e)} placeholder="Wage per Month" required className='w-1/4' />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <h2 className='text-lg font-bold text-primary'>Wage per Hour</h2>
+                      <Input name="pricePerHour" type="number" value={createFormState.pricePerHour} onChange={(e) => handleChange(e)} placeholder="Wage per Hour" required className='w-1/4' />
                     </div>
                     <div className="flex flex-col gap-3">
                       <h2 className='text-lg font-bold text-primary'>Enter workers previous experience</h2>
@@ -356,7 +366,7 @@ const Workers = () => {
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Father&apos;s Name</th>
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Grandfather&apos;s Name</th>
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Image</th>
-                <th className=" py-3 px-4 uppercase font-semibold text-sm">Price</th>
+                <th className=" py-3 px-4 uppercase font-semibold text-sm">Price/Mo</th>
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Category</th>
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Availablity</th>
                 <th className=" py-3 px-4 uppercase font-semibold text-sm">Actions</th>
@@ -369,7 +379,7 @@ const Workers = () => {
                   <td className=" py-3 px-4">{maid.fathersName}</td>
                   <td className=" py-3 px-4">{maid.grandFathersName}</td>
                   <td className=" py-3 px-4"><img src={maid.imageUrl} alt={maid.name} width={50} height={50} /></td>
-                  <td className=" py-3 px-4">{maid.price}</td>
+                  <td className=" py-3 px-4">{maid.pricePerMonth}</td>
                   <td className=" py-3 px-4">{maid.category.name}</td>
                  {maid.isAvailable?
                  <td className=" py-3 px-4"><p className='rounded-full bg-green-800 text-white text-center p-1'>Yes</p></td>
@@ -422,8 +432,12 @@ const Workers = () => {
                                   {updateFormState.imageUrl && <Image src={updateFormState.imageUrl} className='p-3' width={120} height={150} alt="" />}
                                 </div>
                                 <div className="flex items-center gap-3">
-                                  <h2 className='text-lg text-primary font-bold'>Update Price </h2>
-                                  <Input name="price" type="number" value={updateFormState.price} onChange={(e) => handleChange(e, true)} placeholder="Price" required className='w-[30%]'/>
+                                  <h2 className='text-lg text-primary font-bold'>Update Price Per Month </h2>
+                                  <Input name="pricePerMonth" type="number" value={updateFormState.pricePerMonth} onChange={(e) => handleChange(e, true)} placeholder="Price Per Month" required className='w-[30%]'/>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <h2 className='text-lg text-primary font-bold'>Update Price Per Hour </h2>
+                                  <Input name="pricePerHour" type="number" value={updateFormState.pricePerHour} onChange={(e) => handleChange(e, true)} placeholder="Price Per Hour" required className='w-[30%]'/>
                                 </div>
                                 <div className="flex flex-col gap-3">
                                   <h2 className="text-primary text-lg font-bold">Update Experiences</h2>
