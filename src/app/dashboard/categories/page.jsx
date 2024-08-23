@@ -60,7 +60,7 @@ const Categories = () => {
   };
 
   const deleteCategory = async (id) => {
-    await axios.delete(`/api/categories/${id}`, { params: { id: id } });
+    await axios.delete(`/api/categories/${id}`, { params: { id } });
     setCategories(categories.filter(category => category._id !== id));
   };
   
